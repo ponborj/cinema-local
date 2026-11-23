@@ -20,8 +20,11 @@ final class MediaConversion extends Model
     public function publicState(): array
     {
         return [
-            'key' => $this->id, 'state' => $this->status, 'percent' => $this->percent,
-            'message' => $this->message, 'audio' => $this->audio_index,
+            'key' => $this->id,
+            'state' => $this->status,
+            'percent' => $this->percent,
+            'message' => $this->message,
+            'audio' => $this->audio_index,
             'url' => $this->status === 'ready' ? route('conversions.stream', $this->id, false) : null,
         ];
     }

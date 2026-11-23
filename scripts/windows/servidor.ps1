@@ -35,7 +35,7 @@ if ($Action -eq 'Stop') {
         if (!$worker.HasExited) { throw 'O worker ainda esta encerrando a conversao. Aguarde e tente parar novamente.' }
     }
     if ($server) {
-        # This Apache is a console instance, not an installed Windows service.
+        # Este Apache roda separado dos serviços do Windows.
         $children = @(Get-CimInstance Win32_Process -Filter "ParentProcessId = $($server.Id)" | Where-Object { $_.ExecutablePath -eq $apachePath })
         Stop-Process -Id $server.Id
         foreach ($child in $children) {

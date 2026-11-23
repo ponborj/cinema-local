@@ -19,7 +19,11 @@ final class PrepareVideo implements ShouldQueue
 
     public function __construct(public string $key) {}
 
-    /** @return array<int, WithoutOverlapping> */
+    /**
+     * Evita duas preparações iguais ao mesmo tempo.
+     *
+     * @return array<int, WithoutOverlapping>
+     */
     public function middleware(): array
     {
         return [(new WithoutOverlapping($this->key))->dontRelease()->expireAfter($this->timeout + 30)];

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Cria as tabelas de usuários, recuperação de senha e sessões.
      */
     public function up(): void
     {
@@ -38,7 +38,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Remove as tabelas criadas por esta migração.
      */
     public function down(): void
     {

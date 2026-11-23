@@ -18,8 +18,8 @@ final class LibraryController extends Controller
             $breadcrumbs[] = ['title' => $library->title($part), 'folder' => implode('/', $current)];
         }
         $ips = config('media.advertised_ip') ? [config('media.advertised_ip')] : (gethostbynamel(gethostname()) ?: []);
-        $portSuffix = $request->getPort() === 80 ? '' : ':'.$request->getPort();
-        $addresses = array_map(fn (string $ip): string => 'http://'.$ip.$portSuffix, array_filter(array_unique($ips), fn (string $ip): bool => ! str_starts_with($ip, '127.')));
+        $portSuffix = $request->getPort() === 80 ? '' : ':' . $request->getPort();
+        $addresses = array_map(fn(string $ip): string => 'http://' . $ip . $portSuffix, array_filter(array_unique($ips), fn(string $ip): bool => ! str_starts_with($ip, '127.')));
 
         return view('library.index', compact('catalog', 'breadcrumbs', 'addresses'));
     }

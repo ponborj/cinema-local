@@ -16,28 +16,29 @@ final class TvConversions
     {
         clearstatcache(true, $file);
 
-        return hash('sha256', $file.':'.filesize($file).':'.filemtime($file).':'.$audio.':laravel-tv-v1');
+        return hash('sha256', $file . ':' . filesize($file) . ':' . filemtime($file) . ':' . $audio . ':laravel-tv-v1');
     }
 
     public function output(string $key): string
     {
         abort_unless(preg_match('/^[a-f0-9]{64}$/D', $key), 404);
 
-        return config('media.converted_directory').DIRECTORY_SEPARATOR.$key.'.mp4';
+        return config('media.converted_directory') . DIRECTORY_SEPARATOR . $key . '.mp4';
     }
 
+    /** Evita repetir o pedido de preparação para o mesmo arquivo e áudio. */
     public function request(string $relative, ?int $audio): MediaConversion
     {
         $file = $this->library->resolve($relative, MediaLibrary::VIDEO_EXTENSIONS);
         $tracks = collect($this->probe->inspect($file)['streams'])->where('codec_type', 'audio');
         if ($audio === null) {
-            $portuguese = $tracks->first(fn ($track) => in_array(strtolower($track['tags']['language'] ?? ''), ['por', 'pt', 'pt-br'], true));
+            $portuguese = $tracks->first(fn($track) => in_array(strtolower($track['tags']['language'] ?? ''), ['por', 'pt', 'pt-br'], true));
             $audio = ($portuguese ?? $tracks->first())['index'] ?? null;
         }
         abort_unless($audio === null || $tracks->contains('index', $audio), 422, 'Faixa de áudio inválida.');
         $key = $this->fingerprint($file, $audio);
 
-        return Cache::lock('prepare-request:'.$key, 10)->block(3, function () use ($key, $relative, $audio): MediaConversion {
+        return Cache::lock('prepare-request:' . $key, 10)->block(3, function () use ($key, $relative, $audio): MediaConversion {
             $conversion = MediaConversion::firstOrNew(['id' => $key]);
             if ($conversion->exists && in_array($conversion->status, ['queued', 'working'], true)) {
                 return $conversion;
@@ -67,11 +68,12 @@ final class TvConversions
         abort_unless($video, 422, 'Arquivo sem faixa de vídeo.');
         File::ensureDirectoryExists(config('media.converted_directory'));
         $output = $this->output($conversion->id);
-        $partial = $output.'.partial.mp4';
+        $partial = $output . '.partial.mp4';
+        // Reaproveita a imagem quando o formato já é compatível com a TV.
         $copy = $video['codec_name'] === 'h264' && ($video['pix_fmt'] ?? '') === 'yuv420p' && ($video['width'] ?? 99999) <= 1920 && ($video['height'] ?? 99999) <= 1080;
         $arguments = [config('media.ffmpeg'), '-hide_banner', '-loglevel', 'error', '-nostdin', '-y', '-i', $file, '-map', '0:v:0'];
         if ($conversion->audio_index !== null) {
-            array_push($arguments, '-map', '0:'.$conversion->audio_index);
+            array_push($arguments, '-map', '0:' . $conversion->audio_index);
         }
         array_push($arguments, '-c:v', $copy ? 'copy' : 'libx264');
         if (! $copy) {
@@ -114,8 +116,9 @@ final class TvConversions
                 return;
             }
             if (! $process->isSuccessful()) {
-                throw new \RuntimeException('FFmpeg: '.substr($process->getErrorOutput(), -4000));
+                throw new \RuntimeException('FFmpeg: ' . substr($process->getErrorOutput(), -4000));
             }
+            // Só libera o MP4 depois de terminar a preparação.
             if (! rename($partial, $output)) {
                 throw new \RuntimeException('Não foi possível salvar o MP4.');
             }

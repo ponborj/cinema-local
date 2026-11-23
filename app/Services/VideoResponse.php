@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 final class VideoResponse
 {
+    /** Valida o trecho pedido antes de iniciar a transmissão. */
     public function file(Request $request, string $file, string $mime): BinaryFileResponse
     {
         $range = $request->header('Range');
@@ -19,7 +20,7 @@ final class VideoResponse
                 $end = $parts[1] !== '' && $parts[2] !== '' ? min((int) $parts[2], $size - 1) : $size - 1;
                 $valid = $size > 0 && $start <= $end && $start < $size && ! ($parts[1] === '' && (int) $parts[2] === 0);
             }
-            abort_unless($valid, 416, 'Intervalo de vídeo inválido.', ['Content-Range' => 'bytes */'.$size, 'Accept-Ranges' => 'bytes']);
+            abort_unless($valid, 416, 'Intervalo de vídeo inválido.', ['Content-Range' => 'bytes */' . $size, 'Accept-Ranges' => 'bytes']);
         }
 
         return response()->file($file, ['Content-Type' => $mime, 'Cache-Control' => 'private, no-store', 'Accept-Ranges' => 'bytes']);
