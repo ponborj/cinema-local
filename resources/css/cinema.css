@@ -19,6 +19,7 @@
     button { cursor: pointer; }
     button:disabled { opacity: .5; cursor: wait; }
     :focus-visible { outline: 3px solid var(--color-gold); outline-offset: 5px; }
+    main :where(a, button, input, select, video, [id]) { scroll-margin-top: 7rem; }
     select { appearance: none; padding-right: 2.5rem !important; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='m2 2 5 5 5-5' stroke='%23aaaeb8' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; }
     video::cue { font-size: 1.25rem; color: white; background: #000b; }
     progress { accent-color: var(--color-gold); border: 0; border-radius: 2rem; overflow: hidden; }
@@ -34,7 +35,7 @@
     .notice { @apply rounded-xl border border-gold/20 bg-gold/5 p-5 leading-relaxed; }
     .breadcrumb { @apply inline-flex items-center gap-2 rounded-sm hover:text-gold; }
     .filter-button { @apply inline-flex min-h-10 items-center gap-2 rounded-lg px-3 py-2 text-sm text-stone; }
-    .filter-active { @apply bg-white/10 text-ivory; }
+    .filter-active { @apply bg-gold/15 text-gold; box-shadow: inset 0 0 0 1px #e9b96a40; }
     .media-card { @apply flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-surface transition duration-200 hover:-translate-y-1 hover:border-gold/50; }
     .card-art { @apply relative flex h-36 items-center justify-center overflow-hidden bg-linear-to-br text-[#c6ceda] lg:h-44; }
     .card-tone-0 { @apply from-[#333c4b] to-[#1d222c]; }
@@ -42,7 +43,50 @@
     .card-tone-2 { @apply from-[#34453d] to-[#202b27] text-[#bfd3c7]; }
     .card-tone-3 { @apply from-[#413a4d] to-[#282330] text-[#d2c3e1]; }
     .card-glow { position: absolute; width: 190px; height: 190px; border: 1px solid #ffffff08; border-radius: 50%; box-shadow: 0 0 0 28px #ffffff03, 0 0 0 56px #ffffff02; }
+
+    :where(.button-primary, .button-secondary, .button-icon, .filter-button, .media-card, .breadcrumb, .brand, select.field) {
+        transition-property: scale, translate, transform, background-color, border-color, box-shadow, color, filter;
+        transition-duration: 150ms;
+        transition-timing-function: ease-out;
+    }
+
+    :is(.button-primary, .button-secondary, .button-icon, .filter-button, .breadcrumb, .brand):not(:disabled):not([aria-disabled="true"]):is(:active, .is-pressed) {
+        scale: .96;
+        box-shadow: inset 0 2px 5px #0003, 0 0 0 4px #e9b96a24;
+        transition-duration: 65ms;
+    }
+
+    :is(.button-secondary, .button-icon, .filter-button, .breadcrumb, .brand):not(:disabled):is(:active, .is-pressed) {
+        background-color: #e9b96a22;
+        color: var(--color-gold);
+    }
+
+    .button-secondary.is-selected {
+        border-color: #e9b96a80;
+        background-color: #e9b96a14;
+        color: var(--color-gold);
+    }
+
+    .media-card:is(:active, .is-pressed) {
+        scale: .98;
+        translate: 0 0;
+        border-color: var(--color-gold);
+        box-shadow: 0 0 0 4px #e9b96a24, 0 8px 24px #0005;
+        transition-duration: 65ms;
+    }
+
+    :is(.button-primary, .button-secondary, .button-icon, .filter-button, .media-card):focus-visible {
+        box-shadow: 0 0 0 7px #e9b96a14;
+    }
+
+    select.field:is(:focus-visible, .is-pressed) {
+        border-color: var(--color-gold);
+        box-shadow: 0 0 0 4px #e9b96a24;
+    }
 }
 @media (min-width: 1800px) { html { font-size: 20px; } }
 @media (max-width: 700px) { html { font-size: 16px; } .brand { gap: .5rem; } .brand > span:last-child { font-size: .9rem; } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
+    :is(.button-primary, .button-secondary, .button-icon, .filter-button, .media-card, .breadcrumb, .brand, .media-card .card-art svg) { scale: none !important; translate: none !important; }
+}

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', $catalog['title'])
-@section('header-action')<a class="button-secondary" href="#connection" data-connection-toggle><x-icon
+@section('header-action')<a class="button-secondary" href="#connection" data-connection-toggle aria-controls="connection" aria-expanded="false"><x-icon
 name="tv" />Acessar na TV</a>@endsection
 @section('content')
     <main class="mx-auto max-w-[1680px] px-6 pt-12 lg:px-14 lg:pt-16" x-data="libraryPage"
@@ -48,11 +48,11 @@ name="tv" />Acessar na TV</a>@endsection
             <div class="flex items-center gap-2">
                 <div class="flex rounded-xl border border-white/10 bg-surface p-1" role="group"
                     aria-label="Filtrar biblioteca">
-                    <button class="filter-button" :class="allFilterClass" data-filter="all" @click="changeFilter"><x-icon
+                    <button class="filter-button" :class="allFilterClass" :aria-pressed="allFilterSelected" data-filter="all" @click="changeFilter"><x-icon
                             name="grid" />Todos</button>
-                    <button class="filter-button" :class="folderFilterClass" data-filter="folder"
+                    <button class="filter-button" :class="folderFilterClass" :aria-pressed="folderFilterSelected" data-filter="folder"
                         @click="changeFilter"><x-icon name="folder" /><span class="hidden sm:inline">Pastas</span></button>
-                    <button class="filter-button" :class="videoFilterClass" data-filter="video"
+                    <button class="filter-button" :class="videoFilterClass" :aria-pressed="videoFilterSelected" data-filter="video"
                         @click="changeFilter"><x-icon name="film" /><span class="hidden sm:inline">Vídeos</span></button>
                 </div><a href="{{ request()->getRequestUri() }}" class="button-icon"
                     aria-label="Atualizar biblioteca"><x-icon name="refresh" /></a>

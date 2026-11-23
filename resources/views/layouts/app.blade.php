@@ -12,7 +12,7 @@
 </head>
 
 <body class="min-h-screen bg-cinema text-ivory antialiased">
-    <header class="border-b border-white/10">
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-cinema shadow-lg shadow-black/15">
         <div class="mx-auto flex min-h-24 max-w-[1680px] items-center justify-between gap-5 px-6 lg:px-14">
             <a href="{{ route('library', absolute: false) }}" class="brand flex items-center gap-3 rounded-lg"
                 aria-label="Cinema Local, início">

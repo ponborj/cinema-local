@@ -5,6 +5,15 @@ export const libraryPage = () => ({
     filter: "all",
     connectionOpen: false,
     empty: false,
+    get allFilterSelected() {
+        return this.filter === "all";
+    },
+    get folderFilterSelected() {
+        return this.filter === "folder";
+    },
+    get videoFilterSelected() {
+        return this.filter === "video";
+    },
     get allFilterClass() {
         return this.filter === "all" ? "filter-active" : "";
     },
@@ -30,6 +39,8 @@ export const libraryPage = () => ({
         this.connectionHandler = (event) => {
             event.preventDefault();
             this.connectionOpen = !this.connectionOpen;
+            event.currentTarget.setAttribute("aria-expanded", String(this.connectionOpen));
+            event.currentTarget.classList.toggle("is-selected", this.connectionOpen);
             if (this.connectionOpen)
                 this.$nextTick(() =>
                     this.$root
