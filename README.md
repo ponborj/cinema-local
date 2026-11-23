@@ -102,7 +102,29 @@ Veja [CONTRIBUTING.md](CONTRIBUTING.md) para as convenções de contribuição e
 
 ## Capturas de tela
 
-As imagens ficam em [`docs/screenshots`](docs/screenshots). O [guia da pasta](docs/screenshots/README.md) traz os nomes sugeridos e o exemplo de inclusão no README.
+### Catálogo
+
+![Catálogo do Cinema Local](docs/screenshots/catalogo.png)
+
+### Navegação por pastas
+
+![Navegação por pastas](docs/screenshots/pastas.png)
+
+### Player
+
+![Player do Cinema Local](docs/screenshots/player.png)
+
+### Preparação para TV
+
+![Preparação de vídeo em MP4](docs/screenshots/preparacao-mp4.png)
+
+### Celular
+
+![Cinema Local no celular](docs/screenshots/mobile.png)
+
+### TV
+
+![Cinema Local na TV](docs/screenshots/tv.png)
 
 ## Limitações
 
