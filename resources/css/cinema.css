@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+@source '../views/**/*.blade.php';
+@source '../js/**/*.js';
+@theme {
+    --font-sans: 'Segoe UI', Arial, sans-serif;
+    --color-cinema: #101113;
+    --color-surface: #1a1c20;
+    --color-ivory: #f6f3ec;
+    --color-stone: #aaaeb8;
+    --color-gold: #e9b96a;
+}
+@layer base {
+    :root { color-scheme: dark; }
+    html { font-size: 18px; }
+    body { font-family: var(--font-sans); }
+    [x-cloak], [hidden] { display: none !important; }
+    button, a, input, select { -webkit-tap-highlight-color: transparent; }
+    button, a { touch-action: manipulation; }
+    button { cursor: pointer; }
+    button:disabled { opacity: .5; cursor: wait; }
+    :focus-visible { outline: 3px solid var(--color-gold); outline-offset: 5px; }
+    select { appearance: none; padding-right: 2.5rem !important; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='m2 2 5 5 5-5' stroke='%23aaaeb8' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; }
+    video::cue { font-size: 1.25rem; color: white; background: #000b; }
+    progress { accent-color: var(--color-gold); border: 0; border-radius: 2rem; overflow: hidden; }
+    progress::-webkit-progress-bar { background: #ffffff15; }
+    progress::-webkit-progress-value { background: var(--color-gold); }
+}
+@layer components {
+    .button-primary { @apply inline-flex min-h-12 items-center gap-2 rounded-xl border border-transparent bg-gold px-5 py-3 text-sm font-semibold text-cinema transition hover:brightness-110; }
+    .button-secondary { @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-transparent px-4 py-3 text-sm font-medium text-ivory transition hover:border-gold/60 hover:bg-white/5; }
+    .button-icon { @apply flex size-12 shrink-0 items-center justify-center rounded-xl border border-white/10 text-stone hover:text-gold; }
+    .field { @apply min-h-12 min-w-0 rounded-xl border border-white/10 bg-surface px-4 py-3 text-base text-ivory placeholder:text-stone/70; }
+    .eyebrow { @apply text-xs font-semibold tracking-[.2em] text-gold; }
+    .notice { @apply rounded-xl border border-gold/20 bg-gold/5 p-5 leading-relaxed; }
+    .breadcrumb { @apply inline-flex items-center gap-2 rounded-sm hover:text-gold; }
+    .filter-button { @apply inline-flex min-h-10 items-center gap-2 rounded-lg px-3 py-2 text-sm text-stone; }
+    .filter-active { @apply bg-white/10 text-ivory; }
+    .media-card { @apply flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-surface transition duration-200 hover:-translate-y-1 hover:border-gold/50; }
+    .card-art { @apply relative flex h-36 items-center justify-center overflow-hidden bg-linear-to-br text-[#c6ceda] lg:h-44; }
+    .card-tone-0 { @apply from-[#333c4b] to-[#1d222c]; }
+    .card-tone-1 { @apply from-[#493b36] to-[#2a2220] text-[#dcc1b4]; }
+    .card-tone-2 { @apply from-[#34453d] to-[#202b27] text-[#bfd3c7]; }
+    .card-tone-3 { @apply from-[#413a4d] to-[#282330] text-[#d2c3e1]; }
+    .card-glow { position: absolute; width: 190px; height: 190px; border: 1px solid #ffffff08; border-radius: 50%; box-shadow: 0 0 0 28px #ffffff03, 0 0 0 56px #ffffff02; }
+}
+@media (min-width: 1800px) { html { font-size: 20px; } }
+@media (max-width: 700px) { html { font-size: 16px; } .brand { gap: .5rem; } .brand > span:last-child { font-size: .9rem; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
